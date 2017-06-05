@@ -14,6 +14,7 @@ import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.functions.Func1;
+import rx.subjects.AsyncSubject;
 
 import static android.R.id.list;
 
@@ -34,7 +35,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        data();
-        obs();
+//        obs();
+        async();
+    }
+
+    private void async() {
+        AsyncSubject<String> asyncSubject=AsyncSubject.create();
+        asyncSubject.onNext("async ban");
+        asyncSubject.onNext("async yy");
+        asyncSubject.onNext("async uu");
+        asyncSubject.onNext("async zi");
+        asyncSubject.onNext("async xs");
+        asyncSubject.onCompleted();
+        asyncSubject.subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+                Log.i(TAG, "onCompleted: ");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.i(TAG, "onError: "+e.getMessage());
+            }
+
+            @Override
+            public void onNext(String s) {
+                Log.i(TAG, "onNext: "+s);
+            }
+        });
     }
 
     private void obs() {
